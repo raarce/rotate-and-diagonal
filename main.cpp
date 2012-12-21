@@ -117,7 +117,7 @@ public:
                 if (onlyHeader) printf("(%u,%u)\t", x-- ,j);
                 else { 
                     cout << M[j].front() << "\t" ;
-                    M[j].rotate();
+                    M[j].rotateLeft();
                 }
             }
         }
