@@ -33,7 +33,7 @@ public:
     
     void display() {
         for(int i=0; i<this->size();i++){
-            cout << this->front() << " ";
+            cout << this->front() << "    ";
             this->push(this->front());
             this->pop();
         } 
@@ -124,7 +124,11 @@ public:
     }
  
     void display() {
+        cout << "        ";
+        for (UINT i=0; i < dimX; i++) printf("[%02d] ",i);
+        cout << endl;
         for (UINT i=0; i < dimY; i++){
+            printf("[Row%2d]  ",i);
             M[i].display();
         }
     }
