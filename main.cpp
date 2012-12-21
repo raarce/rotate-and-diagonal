@@ -3,15 +3,26 @@
  
 typedef unsigned int UINT;
 using namespace std;
- 
+
+//
+// A circular queue class for representing each of the
+// rows of the matrix.
+//
 template <typename T>
 class circQueue : public queue<T> {
 public:
     circQueue() {}
-    void rotate() {
+
+    void rotateLeft() {
         this->push(this->front());
         this->pop();
     }
+    
+    //
+    // Given a number and the number of bits, fills the 
+    // matrix with 1 and 0's 
+    // Example: pushBin(0x7,5) -->  [ 1 1 1 0 0]
+    //
     void pushBin(UINT n, UINT digits) {
       for (UINT i=0; i < digits; i++) {
             this->push((n & 0x1) + '0');
@@ -19,6 +30,7 @@ public:
             n = n >> 1;
         }
     }
+    
     void display() {
         for(int i=0; i<this->size();i++){
             cout << this->front() << " ";
@@ -30,6 +42,10 @@ public:
  
 };
  
+//
+// A class to represent the 2-dimensional matrix
+//
+
 template <typename T>
 class RotMatrix {
 private:
@@ -37,6 +53,10 @@ private:
     UINT dimX, dimY;
 public:
     RotMatrix() {};
+    
+    //
+    // Init the matrix to x rows and y columns
+    //
     void init(UINT x, UINT y) {
         for (UINT i=0; i < y; i++){
             circQueue <T> A;
@@ -45,6 +65,9 @@ public:
         dimX = x; dimY = y;
     }
  
+    //
+    // Deprecated  :-)
+    //
     void read(T **A) {
         for (UINT i=0; i < dimY; i++){
             for (UINT j=0; j < dimX; j++){
@@ -53,18 +76,30 @@ public:
         }       
     }
  
+    //
+    // Read an array of unsigned numbers and use each
+    // to fill the 1 and 0's of a row matrix
+    //
     void readBins(vector<UINT> V) {
         for (int i=0; i<V.size(); i++) {
             M[i].pushBin(V[i], dimX);
         }
     }
- 
+    
+    //
+    // Rotate left the matrix.
+    // 
     void rotate_left(){
         for (UINT i=0; i < dimY; i++){
-            M[i].rotate();
+            M[i].rotateLeft();
         }       
     }
  
+ 
+    //
+    //  Starting from (0,0), read the matrix diagonally.
+    //  (0,0), (1,0), (0,1), (2,0). (1,1), (0,2),.....
+    //
     void readDiagonally(bool onlyHeader = false) {
         //printf("dimX:%u, dimY:%u", dimX, dimY);
         UINT minDim = min(dimX,dimY);
@@ -102,30 +137,14 @@ const int dimY = 7;
 typedef char * charptr;
 int main() {
  
-    // circQueue<char> Q;
-    // Q.pushBin(0x5,4);
- 
-    // Q.display();
  
     UINT A[] = {0x30, 0x04, 0x3e, 0x0b, 0x05, 0x0a, 0x31};
-    //UINT A[] = {0x3, 0x5, 0x2};
     vector <UINT> V(A, A+dimY);
-    // V.push_back(0x7);
-    // V.push_back(0x5);
-    // V.push_back(0x9);
- 
- 
-    // charptr *A = new charptr[dimY];
-    // for (UINT i=0; i<dimY; i++) { 
-    //  A[i] = new char[dimX];
-    //  for (UINT j=0; j<dimX; j++) {
-    //      A[i][j] = 'A' + i*3 + j;
-    //  }
-    // }
+
  
     RotMatrix<char> R;
     R.init(dimX,dimY);
-    //R.read(A);
+
     R.readBins(V);
  
     R.display(); 
